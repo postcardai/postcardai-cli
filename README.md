@@ -1,20 +1,24 @@
-# @postcardai/cli
+# PostcardAI CLI
 
-Command-line interface for PostcardAI - authenticate and manage your PostcardAI account from the terminal.
+[![npm version](https://img.shields.io/npm/v/@postcardai/cli.svg)](https://www.npmjs.com/package/@postcardai/cli)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+Command-line interface for [PostcardAI](https://postcard.ai). Authenticate and manage your account from the terminal.
 
 ## Installation
 
 ```bash
-# Using npx (recommended)
+# Using npx (no install needed)
 npx @postcardai/cli login
 
 # Or install globally
 npm install -g @postcardai/cli
+postcardai login
 ```
 
 ## Commands
 
-### Login
+### login
 
 Authenticate with your PostcardAI account:
 
@@ -24,14 +28,13 @@ postcardai login
 
 This will:
 1. Generate a device code
-2. Open your browser to authorize the device
-3. Wait for you to approve the request
-4. Store your API key securely in `~/.postcardai/config.json`
+2. Open your browser to authorize
+3. Store credentials in `~/.postcardai/config.json`
 
 Options:
-- `--no-browser` - Don't automatically open the browser
+- `--no-browser` - Don't auto-open browser
 
-### Logout
+### logout
 
 Remove stored credentials:
 
@@ -39,18 +42,18 @@ Remove stored credentials:
 postcardai logout
 ```
 
-### Who Am I
+### whoami
 
-Check your current authentication status:
+Check authentication status:
 
 ```bash
 postcardai whoami
 ```
 
 Options:
-- `--verify` - Verify credentials are still valid with the API
+- `--verify` - Verify with API
 
-### Config
+### config
 
 View and modify configuration:
 
@@ -64,13 +67,13 @@ postcardai config get environment
 # Set value
 postcardai config set environment test
 
-# Show config file path
+# Show config path
 postcardai config path
 ```
 
-## Configuration
+## Configuration File
 
-Credentials are stored in `~/.postcardai/config.json` with the following structure:
+Stored at `~/.postcardai/config.json`:
 
 ```json
 {
@@ -78,20 +81,37 @@ Credentials are stored in `~/.postcardai/config.json` with the following structu
   "keyId": "key_abc123",
   "organizationId": "org_...",
   "organizationName": "Acme Inc",
-  "organizationSlug": "acme-inc",
   "environment": "live"
 }
 ```
 
-The configuration file is created with `0600` permissions (owner read/write only).
+File is created with `0600` permissions (owner read/write only).
+
+## MCP Integration
+
+After logging in, the [PostcardAI MCP Server](https://github.com/daveosterjr/postcardai-mcp) automatically uses your credentials. No extra configuration needed.
+
+```json
+{
+  "mcpServers": {
+    "postcardai": {
+      "command": "npx",
+      "args": ["-y", "@postcardai/mcp-server"]
+    }
+  }
+}
+```
 
 ## Environment Variables
 
-- `POSTCARDAI_API_URL` - Override the API base URL (default: `https://api.postcard.ai/v1`)
+| Variable | Description |
+|----------|-------------|
+| `POSTCARDAI_API_URL` | Override API URL |
 
-## MCP Server Integration
+## Documentation
 
-After authenticating with the CLI, the [PostcardAI MCP Server](../mcp-server) will automatically use your stored credentials. No additional configuration needed.
+- [Full Documentation](https://docs.postcard.ai)
+- [API Reference](https://docs.postcard.ai/api-reference)
 
 ## License
 
